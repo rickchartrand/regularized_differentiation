@@ -23,5 +23,5 @@ setuptools.setup(
         'scipy',
         'cython',  # implicit dependency of pyfftw
         'pyfftw',
-    ],
+    ],  # running examples will require scikit-image, jupyter
 )
