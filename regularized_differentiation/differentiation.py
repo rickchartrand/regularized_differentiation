@@ -13,7 +13,7 @@ def make_differentiation_matrices(rows, columns, channels=1, no_z=True,
     size array will be computed more than once, then it generally is
     faster to compute these arrays once, and then reuse them.
 
-    For 2-D arrays (the motivating case), using a value of 1 for channels 
+    For 2-D arrays (the motivating case), using a value of 1 for channels
     (the default) will produce the correct result.
 
     For 3-D arrays, the most common use case is to compute derivatives with
