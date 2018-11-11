@@ -4,7 +4,7 @@
    other code is called by those functions.
 """
 import numpy as np
-import regularization.differentiation
+from regularized_differentiation import differentiation
 from scipy import sparse as sp
 import pyfftw
 
@@ -47,10 +47,10 @@ def tv_regularized_gradient(image,
 
         splitting_parameter: a parameter internal to the workings of ADMM.
                              The default is to have this parameter equal
-                             the tuning parameter, which in most cases will be
-                             suitable. Smaller values can accelerate
-                             convergence, while larger values can improve
-                             stability.
+                             the reciprocal of the tuning parameter, which
+                             in most cases will be suitable. Smaller values
+                             can accelerate convergence, while larger
+                             values can improve stability.
 
         iterations: the number of main algorithm iterations. The default of 10
                     is typically adequate; larger values can give slightly
@@ -121,7 +121,7 @@ def tv_regularized_gradient(image,
 
     elif Dx is None or Dy is None:
         rows, columns = image.shape
-        dx, dy = regularization.differentiation.make_differentiation_matrices(
+        dx, dy = differentiation.make_differentiation_matrices(
             rows, columns, 1, no_z=True, boundary_conditions='periodic',
             dtype=dtype)
 
@@ -187,13 +187,15 @@ def p_admm(array, mu, lmbda, iterations, Dx, Dy, p=1.0, epsilon=0.0,
         rhs = muKxTb + np.reshape(rhs, (rows, columns))
         obj[:] = rhs
         out = pyfftw.interfaces.numpy_fft.rfft2(obj)
-        U[0] = pyfftw.interfaces.numpy_fft.irfft2(out * xker)
+        U[0] = pyfftw.interfaces.numpy_fft.irfft2(out * xker,
+                                                  s=(rows, columns))
 
         rhs = (Dx.T * (W[2] - B[2]) + Dy.T * (W[3] - B[3])) / lmbda
         rhs = muKyTb + np.reshape(rhs, (rows, columns))
         obj[:] = rhs
         out = pyfftw.interfaces.numpy_fft.rfft2(obj)
-        U[1] = pyfftw.interfaces.numpy_fft.irfft2(out * yker)
+        U[1] = pyfftw.interfaces.numpy_fft.irfft2(out * yker,
+                                                  s=(rows, columns))
 
         # update W
         DU = np.vstack((Dx * U[0].ravel(), Dy * U[0].ravel(),
