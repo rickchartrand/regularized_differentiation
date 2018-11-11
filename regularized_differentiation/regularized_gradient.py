@@ -2,6 +2,11 @@
 
    Users should only need the tv_regularized_gradient function below. The
    other code is called by those functions.
+
+   If you use this code in your research, please cite the following paper:
+   R. Chartrand, "Numerical differentiation of noisy, nonsmooth,
+   multidimensional data," in IEEE Global Conference on Signal and
+   Information Processing, 2017.
 """
 import numpy as np
 from regularized_differentiation import differentiation
