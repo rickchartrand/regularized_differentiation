@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='regularized_differentiation',
-    version='0.0.2',
+    version='0.0.3',
     author='Rick Chartrand',
     author_email='rick@descarteslabs.com',
     description='regularized numerical differentiation',
@@ -21,7 +21,6 @@ setuptools.setup(
     install_requires=[
         'numpy',
         'scipy',
-        'cython>=0.29',  # implicit dependency of pyfftw
-        'pyfftw',
+        'pyfftw',  # ATTM need to pip install cython for pyfftw to install
     ],  # running examples will require scikit-image, jupyter
 )
