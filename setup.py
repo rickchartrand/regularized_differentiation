@@ -22,7 +22,7 @@ setuptools.setup(
         'numpy>=1.6',
         'scipy>=1.0',
         'cython>=0.28',
-    ]
+    ],
     install_requires=[
         'numpy>=1.6',
         'scipy>=1.0',
